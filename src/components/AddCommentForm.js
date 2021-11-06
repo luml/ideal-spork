@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { Button, Input } from 'antd';
+import { Input, Form, Button } from 'antd';
 
-const { TextArea } = Input
+const layout = {
+    labelCol: {span: 3},
+    wrapperCol: {span: 16}
+}
 
 const AddCommentForm = ({ articleName, setArticleInfo }) => {
+    const [form] = Form.useForm()
     const [username, setUsername] = useState('');
     const [commentText, setCommentText] = useState('');
 
-    const addComment = async () => {
+    const onFinish = async (values) => {
+        const { username, commentText } = values
         const result = await fetch(`/api/articles/${articleName}/add-comment`, {
             method: 'post',
             body: JSON.stringify({ username, text: commentText }),
@@ -22,18 +27,19 @@ const AddCommentForm = ({ articleName, setArticleInfo }) => {
     }
 
     return (
-        <div id="add-comment-form">
-            <h3>Add a Comment</h3>
-            <label>
-                Name:
-                <Input type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
-            </label>
-            <label>
-                Comment:
-                <TextArea rows={4} cols={50} value={commentText} onChange={(event) => setCommentText(event.target.value)} />
-            </label>
-            <Button onClick={() => addComment()}>Add Comment</Button>
-        </div>
+        <Form labelAlign="left" {...layout} form={form} onFinish={onFinish} autoComplete="off">
+            <Form.Item name="username" label="Name" rules={[{required: true}]}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="commentText" label="Comment" rules={[{required: true}]}>
+                <Input />
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+            </Form.Item>
+        </Form>
     );
 }
 

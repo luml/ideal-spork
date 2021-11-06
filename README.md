@@ -4,6 +4,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+run yarn start
+
+run monogodb server, brew services start mongodb-community@5.0
+
+to use mongoDB Cmapass GUI, open it and connect to local server
+
+make sure setup proxy for the frontend before start frontend application
+
 In the project directory, you can run:
 
 ### `yarn start`
