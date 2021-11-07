@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Table, Tag, Space, Pagination } from 'antd'
+import { Table, Space, Pagination, Modal } from 'antd'
+
+function confirm(record) {
+    Modal.confirm({
+        title: 'Confirm',
+        // icon: <ExclamationCircleOutlined />,
+        content: `${record.text} from ${record.username}`,
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {
+            console.log(`Deleting.. ${record.text}`)
+        }
+    });
+}
 
 const Comments = ({ match }) => {
     const name = match.params.name
 
     const [comments, setComments] = useState([])
 
-    const deleteComment = () => {
-        console.log('Deleting...')
+    const deleteComment = (record) => {
+        confirm(record)
+        console.log('Deleting... ' + record )
     }
 
     useEffect(() => {
@@ -38,7 +52,7 @@ const Comments = ({ match }) => {
                 return (
                     <Space size="middle">
                         {/* <a>Invite {username}{text}</a> */}
-                        <a onClick={deleteComment}>Delete</a>
+                        <a onClick={() => deleteComment(record)}>Delete</a>
                     </Space>
                 )
             }
