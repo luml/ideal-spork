@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Input } from 'antd'
-import TreeDemo from '../components/Tree'
+// import TreeDemo from '../components/Tree'
+import TreeComp from '../components/TreeClassComp'
 
 class TreePage extends React.PureComponent {
   constructor(props) {
@@ -26,7 +27,8 @@ class TreePage extends React.PureComponent {
     return (
       <Fragment>
         <Input value={this.state.branchs} />
-        <TreeDemo {...this.state} onChange={this.handleChange} />
+        {/* <TreeDemo {...this.state} onChange={this.handleChange} /> */}
+        <TreeComp {...this.state} onChange={this.handleChange} />
       </Fragment>
     )
   }
