@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Tree } from 'antd';
 import 'antd/dist/antd.css';
 
+const { TreeNode } = Tree
+
 const treeData = [
   {
     title: '0-0',
@@ -49,33 +51,33 @@ const treeData = [
       },
     ],
   },
-  // {
-  //   title: '0-1',
-  //   key: '0-1',
-  //   children: [
-  //     {
-  //       title: '0-1-0-0',
-  //       key: '0-1-0-0',
-  //     },
-  //     {
-  //       title: '0-1-0-1',
-  //       key: '0-1-0-1',
-  //     },
-  //     {
-  //       title: '0-1-0-2',
-  //       key: '0-1-0-2',
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: '0-2',
-  //   key: '0-2',
-  // },
+  {
+    title: '0-1',
+    key: '0-1',
+    children: [
+      {
+        title: '0-1-0-0',
+        key: '0-1-0-0',
+      },
+      {
+        title: '0-1-0-1',
+        key: '0-1-0-1',
+      },
+      {
+        title: '0-1-0-2',
+        key: '0-1-0-2',
+      },
+    ],
+  },
+  {
+    title: '0-2',
+    key: '0-2',
+  },
 ];
 
 const Demo = () => {
   const [expandedKeys, setExpandedKeys] = useState([]);
-  const [checkedKeys, setCheckedKeys] = useState(['0-0-0','0-0-1-1']);
+  const [checkedKeys, setCheckedKeys] = useState(['0-0-0', '0-0-1-1']);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
 
@@ -97,6 +99,18 @@ const Demo = () => {
     setSelectedKeys(selectedKeysValue);
   };
 
+  const renderTreeList = (treeData) => {
+    return treeData.map(item => {
+      if (item.children) {
+        return (<TreeNode title={item.title} key={item.key}>
+          {renderTreeList(item.children)}
+        </TreeNode>)
+      } else {
+        return <TreeNode title={item.title} key={item.key} isLeaf={true}></TreeNode>
+      }
+    })
+  }
+
   return (
     <Tree
       checkable
@@ -108,8 +122,10 @@ const Demo = () => {
       checkedKeys={checkedKeys}
       onSelect={onSelect}
       selectedKeys={selectedKeys}
-      treeData={treeData}
-    />
+    // treeData={treeData}
+    >
+      {renderTreeList(treeData)}
+    </Tree>
   );
 };
 
