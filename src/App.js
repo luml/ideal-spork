@@ -4,7 +4,7 @@ import About from './pages/About'
 import Articles from './pages/Articles'
 import Article from './pages/Article'
 import Login from './pages/Login'
-import Demo from './pages/Tree'
+import TreePage from './pages/TreePage'
 // import Comments from './pages/Comments'
 import NotFoundPage from './pages/NotFoundPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -23,7 +23,7 @@ function App() {
             <Route path="/article/:name" component={Article} exact />
             {/* <Route path="/comments/:name" component={Comments} exact /> */}
             <Route path="/login" component={Login} exact />
-            <Route path="/tree" component={Demo} />
+            <Route path="/tree" component={TreePage} exact />
             <Route component={NotFoundPage} />
           </Switch>
         </div>

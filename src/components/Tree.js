@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Tree } from 'antd';
+import React, { useState, Fragment, useEffect } from 'react';
+import { Tree, Input } from 'antd';
 import 'antd/dist/antd.css';
 
 const { TreeNode } = Tree
@@ -75,11 +75,26 @@ const treeData = [
   },
 ];
 
-const Demo = () => {
+const Demo = (props) => {
+  const { branchs, onChange } = props
+
+  const [branchNames, setBranchNames] = useState(branchs)
   const [expandedKeys, setExpandedKeys] = useState([]);
-  const [checkedKeys, setCheckedKeys] = useState(['0-0-0', '0-0-1-1']);
+  const [checkedKeys, setCheckedKeys] = useState([]); // '0-0-0', '0-0-1-1'
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
+
+  useEffect(() => {
+    setBranchNames(props.branchs)
+
+    if (branchNames) {
+      if (branchNames.includes(',')) {
+        setCheckedKeys(branchNames.split(','))
+      } else {
+        setCheckedKeys([branchNames])
+      }
+    }
+  }, [branchNames, props])
 
   const onExpand = (expandedKeysValue) => {
     console.log('onExpand', expandedKeysValue); // if not set autoExpandParent to false, if children expanded, parent can not collapse.
@@ -92,6 +107,9 @@ const Demo = () => {
   const onCheck = (checkedKeysValue) => {
     console.log('onCheck', checkedKeysValue);
     setCheckedKeys(checkedKeysValue);
+    setBranchNames(checkedKeysValue.join(','))
+    // control parent state
+    onChange(checkedKeysValue)
   };
 
   const onSelect = (selectedKeysValue, info) => {
@@ -99,6 +117,7 @@ const Demo = () => {
     setSelectedKeys(selectedKeysValue);
   };
 
+  // TODO only one property missing on TreeNode
   const renderTreeList = (treeData) => {
     return treeData.map(item => {
       if (item.children) {
@@ -112,20 +131,24 @@ const Demo = () => {
   }
 
   return (
-    <Tree
-      checkable
-      onExpand={onExpand}
-      checkStrictly={false}
-      expandedKeys={expandedKeys}
-      autoExpandParent={autoExpandParent}
-      onCheck={onCheck}
-      checkedKeys={checkedKeys}
-      onSelect={onSelect}
-      selectedKeys={selectedKeys}
-    // treeData={treeData}
-    >
-      {renderTreeList(treeData)}
-    </Tree>
+    <Fragment>
+      <Input value={branchNames} placeholder="show checked tree... " />
+      <Tree
+        checkable
+        onExpand={onExpand}
+        checkStrictly={false}
+        expandedKeys={expandedKeys}
+        autoExpandParent={autoExpandParent}
+        onCheck={onCheck}
+        checkedKeys={checkedKeys}
+        onSelect={onSelect}
+        selectedKeys={selectedKeys}
+      // treeData={treeData}
+      >
+        {renderTreeList(treeData)}
+      </Tree>
+    </Fragment>
+
   );
 };
 
