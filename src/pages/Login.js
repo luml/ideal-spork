@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Input, Checkbox } from 'antd'
+import { Form, Button, Input, Checkbox, message } from 'antd'
 
 const Login = () => {
   const [form] = Form.useForm()
@@ -18,8 +18,7 @@ const Login = () => {
       window.sessionStorage.setItem("user", 'admin')
       window.location = "http://localhost:3000/article-list"
     } else {
-      // set field error status
-      // form
+      message.error('Wrong username')
     }
   };
 
