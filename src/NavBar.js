@@ -13,12 +13,15 @@ const NavBar = () => (
             <li>
                 <Link to="/about">About</Link>
             </li>
-            {/* <li>
-                <Link to="/login">Login</Link>
-            </li> */}
             <li>
                 <Link to="/tree">Tree</Link>
             </li>
+            {
+                window.sessionStorage.getItem('user') ?
+                    <span>{window.sessionStorage.getItem("user")}</span> :
+                    <li><Link to="/login">Login</Link></li>
+
+            }
         </ul>
     </nav>
 )

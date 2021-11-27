@@ -15,6 +15,7 @@ const Login = () => {
   const onFinish = (values) => {
     console.log('Success:', values, form.getFieldValue('username'));
     if (form.getFieldValue('username') === 'admin') {
+      window.sessionStorage.setItem("user", 'admin')
       window.location = "http://localhost:3000/article-list"
     } else {
       // set field error status
