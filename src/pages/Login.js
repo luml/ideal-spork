@@ -15,6 +15,11 @@ const Login = () => {
   const onFinish = (values) => {
     console.log('Success:', values, form.getFieldValue('username'));
     if (form.getFieldValue('username') === 'admin') {
+      /**
+       * step 1: set up user data in redux store if we have redux store
+       * step 2: put a copy data into localstorage or sessionStorage
+       * step 3: put token into the http request header Authorization
+       */
       window.sessionStorage.setItem("user", 'admin')
       window.location = "http://localhost:3000/article-list"
     } else {
