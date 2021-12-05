@@ -7,10 +7,15 @@ const b = '2021-9'
 
 const dateFormat = 'YYYY-MM-DD';
 
+const onChange = (date, dateString) => {
+  // console.log(date, dateString)
+  console.log(1111, dateString)
+}
+
 const Login = () => (
   <div>
     {/* <DatePicker defaultValue={moment(a, dateFormat)} disabled /> */}
-    <DatePicker defaultValue={moment(a, dateFormat)} />
+    <DatePicker defaultValue={moment(a, dateFormat)} onChange={onChange} />
     <br />
     <MonthPicker defaultValue={moment(b, 'YYYY-MM')} disabled />
     <br />
