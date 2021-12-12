@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Pagination, Modal } from 'antd'
+import { Table, Space, Pagination, Modal, Button } from 'antd'
 
 const Comments = ({ match }) => {
     const name = match.params.name
@@ -60,6 +60,8 @@ const Comments = ({ match }) => {
                 return (
                     <Space size="middle">
                         {/* <a>Invite {username}{text}</a> */}
+                        <Button type="link">edit</Button>
+                        <Button danger type="text">off</Button>
                         <a onClick={() => deleteComment(record)}>Delete</a>
                     </Space>
                 )
