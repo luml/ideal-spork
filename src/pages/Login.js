@@ -21,7 +21,7 @@ const Login = () => {
        * step 3: put token into the http request header Authorization
        */
       window.sessionStorage.setItem("user", 'admin')
-      window.location = "http://localhost:3000/article-list"
+      window.location.href = "http://localhost:3000/article-list"
     } else {
       message.error('Wrong username')
     }
