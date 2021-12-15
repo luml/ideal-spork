@@ -7,26 +7,40 @@ import Login from './pages/Login'
 import TreePage from './pages/TreePage'
 import Comments from './pages/Comments'
 import NotFoundPage from './pages/NotFoundPage'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import NavBar from './NavBar'
+
+function RequireAuth({ children }) {
+  const user = window.sessionStorage.getItem('user')
+  if (!user) {
+    return <Navigate to="/login" />
+  }
+  return children
+}
+
+// function ProtectedPage() {
+//   return <h3>Protected</h3>
+// }
 
 function App() {
   return (
     <Router>
       <div className="App">
         <NavBar />
-        <div id="page-body">
-          <Switch>
-            <Route path="/" component={Home} exact />
-            <Route path="/about" component={About} exact />
-            <Route path="/article-list" component={Articles} exact />
-            <Route path="/article/:name" component={Article} exact />
-            <Route path="/comments/:name" component={Comments} exact />
-            <Route path="/login" component={Login} exact />
-            <Route path="/tree" component={TreePage} exact />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </div>
+        <Routes>
+          <Route path="/" element={Home} exact />
+          <Route path="/about" element={About} exact />
+          <Route path="/protected" element={
+            <RequireAuth>
+              <Route path="/article-list" element={Articles} exact />
+              <Route path="/article/:name" element={Article} exact />
+              <Route path="/comments/:name" element={Comments} exact />
+              <Route path="/login" element={Login} exact />
+              <Route path="/tree" element={TreePage} exact />
+              <Route element={NotFoundPage} />
+            </RequireAuth>
+          } />
+        </Routes>
       </div>
     </Router>
   );
