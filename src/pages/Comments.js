@@ -31,7 +31,7 @@ const Comments = ({ match }) => {
             const body = await result.json()
             const test = body.comments
             let a = []
-            test.map((item, index) => {
+            test.forEach((item, index) => {
                 item.index = item.username + '-' + index
                 a.push(item)
             })
@@ -62,7 +62,7 @@ const Comments = ({ match }) => {
                         {/* <a>Invite {username}{text}</a> */}
                         <Button type="link">edit</Button>
                         <Button danger type="text">off</Button>
-                        <a onClick={() => deleteComment(record)}>Delete</a>
+                        <Button onClick={() => deleteComment(record)}>Delete</Button>
                     </Space>
                 )
             }
