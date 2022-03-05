@@ -5,7 +5,7 @@ import Articles from './pages/Articles'
 import Article from './pages/Article'
 import Login from './pages/Date'
 import TreePage from './pages/TreePage'
-// import Comments from './pages/Comments'
+import Comments from './pages/Comments'
 import NotFoundPage from './pages/NotFoundPage'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import NavBar from './NavBar'
@@ -21,7 +21,7 @@ function App() {
             <Route path="/about" component={About} exact />
             <Route path="/article-list" component={Articles} exact />
             <Route path="/article/:name" component={Article} exact />
-            {/* <Route path="/comments/:name" component={Comments} exact /> */}
+            <Route path="/comments/:name" component={Comments} exact />
             <Route path="/login" component={Login} exact />
             <Route path="/tree" component={TreePage} exact />
             <Route component={NotFoundPage} />

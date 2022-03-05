@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Pagination, Modal } from 'antd'
+import { Table, Space, Pagination, Modal, Button } from 'antd'
 
 const Comments = ({ match }) => {
     const name = match.params.name
@@ -8,17 +8,16 @@ const Comments = ({ match }) => {
 
     const deleteComment = (record) => {
         confirm(record)
-        // console.log('Deleting... ' + record)
     }
 
     function confirm(record) {
+        const { paramSet: { warning: { measures } } } = record
         Modal.confirm({
             title: 'Confirm',
-            content: `${record.text} from ${record.username}`,
+            content: `${record.text} from ${record.username}, and ${measures[0].name}`,
             okText: '确认',
             cancelText: '取消',
             onOk: () => {
-                // console.log(`Deleting.. ${record.text}`)
                 const removedComments = comments.filter(item => item.index !== record.index)
                 setComments(removedComments)
             }
@@ -29,14 +28,27 @@ const Comments = ({ match }) => {
         const fetchComments = async () => {
             const result = await fetch(`/api/articles/${name}`)
             const body = await result.json()
-            const test = body.comments
-            let a = []
-            test.map((item, index) => {
-                item.index = item.username + '-' + index
-                a.push(item)
-            })
+            const tempComments = body.comments
+            let newCommentlist = []
+            tempComments.forEach((item, index) => {
+                let temp;
+                temp = {
+                    index: item.username + '-' + index,
+                    text: item.text,
+                    username: item.username,
+                    paramSet: {
+                        warning: {
+                            measures: [
+                                { name: item.username, checked: '0' },
+                                { name: item.username, checked: '1' }
+                            ]
+                        }
+                    }
+                }
 
-            setComments(a)
+                newCommentlist.push(temp)
+            })
+            setComments(newCommentlist)
         }
         fetchComments()
     }, [name])
@@ -54,13 +66,12 @@ const Comments = ({ match }) => {
         },
         {
             title: 'Action',
-            key: 'action',
+            dataIndex: '',
+            key: '',
             render: (text, record) => {
-                console.log(text, record)
                 return (
                     <Space size="middle">
-                        {/* <a>Invite {username}{text}</a> */}
-                        <a onClick={() => deleteComment(record)}>Delete</a>
+                        <Button onClick={() => deleteComment(record)}>Delete</Button>
                     </Space>
                 )
             }
@@ -73,6 +84,7 @@ const Comments = ({ match }) => {
                 columns={columns}
                 dataSource={comments}
                 pagination={{ position: ['none', 'none'] }}
+                rowKey={record => record.index}
             />
             <Pagination defaultCurrent={1} total={50}></Pagination>
         </React.Fragment>
